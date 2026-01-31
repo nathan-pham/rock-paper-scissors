@@ -18,68 +18,104 @@ function getHumanChoice() {
     return prompt("Rock, paper, or scissors?");
 }
 
-function playGame() {
-
-    function playRound(humanChoice, computerChoice) {
+function playRound(humanChoice, computerChoice) {
         humanChoice = humanChoice.toLowerCase();
         computerChoice = computerChoice.toLowerCase();
 
         switch (humanChoice) {
             case "rock":
                 if (computerChoice == "paper") {
-                    console.log("You lose! Paper beats Rock.")
                     computerScore ++;
+                    displayResult("You lose! Paper beats Rock.", results)
                     break;
                 }
                 else if (computerChoice == "scissors") {
-                    console.log("You win! Rock beats Scissors.")
                     humanScore ++;
+                    displayResult("You win! Rock beats Scissors.", results)
                     break;
                 }
                 else {
-                    console.log("Draw!")
+                    displayResult("Draw!", results)
                     break;
                 }
             case "paper":
                 if (computerChoice == "scissors") {
-                    console.log("You lose! Scissors beats Paper.")
                     computerScore ++;
+                    displayResult("You lose! Scissors beats Paper.", results)
                     break;
                 }
                 else if (computerChoice == "rock") {
-                    console.log("You win! Paper beats Rock.")
                     humanScore ++;
+                    displayResult("You win! Paper beats Rock.", results)
                     break;
                 }
                 else {
-                    console.log("Draw!")
+                    displayResult("Draw!", results)
                     break;
                 }
             case "scissors":
                 if (computerChoice == "rock") {
-                    console.log("You lose! Rock beats Scissors.")
                     computerScore ++;
+                    displayResult("You lose! Rock beats Scissors.", results)
                     break;
                 }
                 else if (computerChoice == "paper") {
-                    console.log("You win! Paper beats Scissors.")
                     humanScore ++;
+                    displayResult("You win! Paper beats Scissors.", results)
                     break;
                 }
                 else {
-                    console.log("Draw!")
+                    displayResult("Draw!", results)
                     break;
                 }
         }
     }
 
-    var humanScore = 0;
-    var computerScore = 0;
+function playGame() {
 
-    for (let i = 0; i < 5; i ++) {
+    /*for (let i = 0; i < 5; i ++) {
         playRound(getHumanChoice(), getComputerChoice())
-    }
+    }*/
 
 }
 
-playGame();
+function displayResult(outcome, target) {
+    target.textContent = outcome;
+
+    humanScoreDiv.textContent = "Human: " + humanScore;
+    computerScoreDiv.textContent = "Computer: " + computerScore;
+    results.appendChild(humanScoreDiv);
+    results.appendChild(computerScoreDiv);    
+
+    if (humanScore == 5) {
+        const winner = document.createElement("div");
+        winner.textContent = "You are the winner!"
+        target.appendChild(winner);        
+    }
+    else if (computerScore == 5) {
+        const winner = document.createElement("div");
+        winner.textContent = "The computer is the winner!"
+        target.appendChild(winner);
+    }
+}
+
+var humanScore = 0;
+var computerScore = 0;
+
+const rock = document.querySelector("#rock");
+const paper = document.querySelector("#paper");
+const scissors = document.querySelector("#scissors");
+const results = document.querySelector("#score");
+
+rock.addEventListener("click", () => {
+    playRound("rock", getComputerChoice())
+});
+paper.addEventListener("click", () => {
+    playRound("paper", getComputerChoice())
+});
+scissors.addEventListener("click", () => {
+    playRound("scissors", getComputerChoice())
+});
+
+const humanScoreDiv = document.createElement("div");
+const computerScoreDiv = document.createElement("div");
